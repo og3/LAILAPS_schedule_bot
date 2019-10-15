@@ -1,24 +1,16 @@
-# README
+# このアプリについて
+- 以下のスケジュール表を問いかけに応じて教えてくれるlinebot
+https://lailaps-hokusei.jp/fee/
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# 背景
+- いちいちスケジュールを確認するのが面倒くさいから
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# 仕様
+## クライアント側
+- 「今」と入力すると今行われているクラスと次のクラスを返す
+- 「今日」と入力すると今日のクラスを返す
+- 「すべて」と入力すると１週間すべてのクラスを返す
+- 「news」と入力すると以下の最新記事のアドレスを返す
+https://lailaps-hokusei.jp/news2/
+## 管理者側
+- 変更に対応できるようにクラスの値を管理するできるようにする
