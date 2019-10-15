@@ -1,5 +1,5 @@
 # このアプリについて
-- 以下のスケジュール表を問いかけに応じて教えてくれるlinebot
+- 以下のスケジュール表を問いかけに応じて教えてくれるlinebot  
 https://lailaps-hokusei.jp/fee/
 
 # 背景
