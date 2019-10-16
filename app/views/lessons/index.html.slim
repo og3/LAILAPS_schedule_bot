@@ -1,0 +1,40 @@
+p#notice
+  = notice
+h1
+  | Lessons
+table
+  thead
+    tr
+      th = "レッスン名"
+      th = "トレーナー"
+      th = "曜日"
+      th = "レッスン番号"
+      th = "開始時間"
+      th = "終了時間"
+      th = "開始時間（数値）"
+      th = "終了時間（数値）"
+      th = "アクション"
+  tbody
+    - @lessons.each do |lesson|
+      tr
+        td
+          = lesson.name
+        td
+          = lesson.trainer
+        td
+          = lesson.day_of_the_week
+        td
+          = lesson.number_of_lessons
+        td
+          = lesson.start_on.strftime('%H：%M')
+        td
+          = lesson.end_on.strftime('%H：%M')
+        td
+          = lesson.start_on_int
+        td
+          = lesson.end_on_int
+        td
+          = link_to 'Edit', edit_lesson_path(lesson)
+          = link_to 'Destroy', lesson, method: :delete, data: { confirm: 'Are you sure?' }
+br
+= link_to 'New Lesson', new_lesson_path
