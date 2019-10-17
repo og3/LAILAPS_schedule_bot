@@ -4,6 +4,9 @@ class LinebotController < ApplicationController
     # callbackアクションのCSRFトークン認証を無効
     protect_from_forgery :except => [:callback]
   
+    # モデルに切り出し予定
+    WEEK = { 1 => "月曜日", 2 => "火曜日", 3 => "水曜日", 4 => "木曜日", 5 => "金曜日", 6 => "土曜日", 7 => "日曜日" }.freeze
+
     def client
       @client ||= Line::Bot::Client.new { |config|
         config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -27,6 +30,20 @@ class LinebotController < ApplicationController
         @message
     end
 
+    def get_all_lessons
+        lessons = Lesson.all
+        @message = "１週間のスケジュールは以下の通りです\n\n"
+        count = 0
+        lessons.each do |lesson|
+            if count != lesson.day_of_the_week
+                @massage << "#{WEEK[lesson.day_of_the_week]}\n"
+                count = lesson.day_of_the_week
+            end
+            @message << "#{lesson.start_on.strftime('%H：%M')}~  #{lesson.name}：#{lesson.trainer}\n"
+        end
+        @message
+    end
+
     def callback
   
       body = request.body.read
@@ -45,8 +62,10 @@ class LinebotController < ApplicationController
           response = get_lesson_of_now_and_next
         elsif event.message['text'] == "今日"
           response = get_todays_lesson
+        elsif event.message['text'] == "全て"
+            response = get_all_lessons
         else
-          response = "使えるワードは「今」、「今日」、「全て」、「休館日」のみです"
+          response = "使えるワードは「今」、「今日」、「全て」のみです（機能は随時追加予定です）"
         end
         #if文でresponseに送るメッセージを格納
   
