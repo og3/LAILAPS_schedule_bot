@@ -3,6 +3,9 @@ class LinebotController < ApplicationController
 
     # callbackアクションのCSRFトークン認証を無効
     protect_from_forgery :except => [:callback]
+  
+    # モデルに切り出し予定
+    WEEK = { 1 => "月曜日", 2 => "火曜日", 3 => "水曜日", 4 => "木曜日", 5 => "金曜日", 6 => "土曜日", 7 => "日曜日" }.freeze
 
     def client
       @client ||= Line::Bot::Client.new { |config|
@@ -28,14 +31,12 @@ class LinebotController < ApplicationController
     end
 
     def get_all_lessons
-        # モデルに切り出し予定
-        week = { 1 => "月曜日", 2 => "火曜日", 3 => "水曜日", 4 => "木曜日", 5 => "金曜日", 6 => "土曜日", 7 => "日曜日" }.freeze
         lessons = Lesson.all
         @message = "１週間のスケジュールは以下の通りです\n\n"
         count = 0
         lessons.each do |lesson|
             if count != lesson.day_of_the_week
-                @massage << "#{week[lesson.day_of_the_week]}\n"
+                @message << "#{WEEK[lesson.day_of_the_week]}\n"
                 count = lesson.day_of_the_week
             end
             @message << "#{lesson.start_on.strftime('%H：%M')}~  #{lesson.name}：#{lesson.trainer}\n"
