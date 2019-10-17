@@ -64,6 +64,8 @@ class LinebotController < ApplicationController
           response = get_todays_lesson
         elsif event.message['text'] == "全て"
             response = get_all_lessons
+        elsif event.message['text'] == "使い方"
+            response = "「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n、「今日」と入力すると、今日行われる全てのレッスンが表示されます\n「全て」と入力すると１週間全てのレッスンが表示されます"
         else
           response = "使えるワードは「今」、「今日」、「全て」のみです（機能は随時追加予定です）"
         end
