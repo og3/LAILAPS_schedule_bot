@@ -1,6 +1,8 @@
 class LinebotController < ApplicationController
     require 'line/bot'  # gem 'line-bot-api'
-
+    require 'date'
+    require 'holiday_jp'
+  
     # callbackアクションのCSRFトークン認証を無効
     protect_from_forgery :except => [:callback]
   
@@ -18,6 +20,9 @@ class LinebotController < ApplicationController
         lesson_of_now = Lesson.find_by(day_of_the_week: Time.current.wday, start_on_int: [-Float::INFINITY..Time.current.strftime('%H%M').to_i], end_on_int: [Time.current.strftime('%H%M').to_i..Float::INFINITY])
         lesson_of_next = Lesson.find_by(day_of_the_week: Time.current.wday, number_of_lessons: lesson_of_now.number_of_lessons + 1)
         @message = "現在のレッスンは、#{lesson_of_now.name}です\nトレーナー：#{lesson_of_now.trainer}\n時間：#{lesson_of_now.start_on.strftime('%H：%M')}〜#{lesson_of_now.end_on.strftime('%H：%M')}\n\n次回のレッスンは、#{lesson_of_next.name}です\nトレーナー：#{lesson_of_next.trainer}\n時間：#{lesson_of_next.start_on.strftime('%H：%M')}〜#{lesson_of_next.end_on.strftime('%H：%M')}"
+        if HolidayJp.holiday?(Date.today)
+          @message << "\n本日は祝日なので、休館の可能性があります！\n公式情報を参照してください！"
+        end
         @message
     end
 
