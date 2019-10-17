@@ -22,7 +22,7 @@ class LinebotController < ApplicationController
         lessons_of_today = Lesson.where(day_of_the_week: Time.current.wday)
         @message = "本日のレッスンは以下の通りです\n\n"
         lessons_of_today.each do |lesson|
-            @message << "#{lesson.name}：#{lesson.trainer}　#{lesson.start_on.strftime('%H：%M')}〜#{lesson.end_on.strftime('%H：%M')}\n"
+            @message << "#{lesson.start_on.strftime('%H：%M')}~  #{lesson.name}：#{lesson.trainer}\n"
         end
         @message
     end
