@@ -11,10 +11,19 @@ class LinebotController < ApplicationController
       }
     end
   
-    def answer_for_word_of_now
+    def get_lesson_of_now_and_next
         lesson_of_now = Lesson.find_by(day_of_the_week: Time.current.wday, start_on: [-Float::INFINITY..Time.current.strftime('%H%M').to_i])
         lesson_of_next = Lesson.find_by(day_of_the_week: Time.current.wday, number_of_lessons: lesson_of_now.number_of_lessons + 1)
         @message = "現在のレッスンは、#{lesson_of_now.name}です\nトレーナー：#{lesson_of_now.trainer}\n時間：#{lesson_of_now.start_on.strftime('%H：%M')}〜#{lesson_of_now.end_on.strftime('%H：%M')}\n\n次回のレッスンは、#{lesson_of_next.name}です\nトレーナー：#{lesson_of_next.trainer}\n時間：#{lesson_of_next.start_on.strftime('%H：%M')}〜#{lesson_of_next.end_on.strftime('%H：%M')}"
+        @message
+    end
+
+    def get_todays_lesson
+        lessons_of_today = Lesson.find_by(day_of_the_week: Time.current.wday)
+        @message = "本日のレッスンは以下の通りです\n\n"
+        lessons_of_today.each do |lesson|
+            @message << "#{lesson.name}：#{lesson.trainer}　#{lesson.start_on.strftime('%H：%M')}〜#{lesson.end_on.strftime('%H：%M')}\n"
+        end
         @message
     end
 
@@ -33,7 +42,9 @@ class LinebotController < ApplicationController
   
         # event.message['text']でLINEで送られてきた文書を取得
         if event.message['text'] == "今"
-          response = answer_for_word_of_now
+          response = get_lesson_of_now_and_next
+        elsif event.message['text'] == "今日"
+          response = get_todays_lesson
         else
           response = "使えるワードは「今」、「今日」、「全て」、「休館日」のみです"
         end
