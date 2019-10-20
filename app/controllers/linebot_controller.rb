@@ -7,7 +7,7 @@ class LinebotController < ApplicationController
     protect_from_forgery :except => [:callback]
   
     # モデルに切り出し予定
-    WEEK = { 1 => "月曜日", 2 => "火曜日", 3 => "水曜日", 4 => "木曜日", 5 => "金曜日", 6 => "土曜日", 7 => "日曜日" }.freeze
+    WEEK = { 1 => "月曜日", 2 => "火曜日", 3 => "水曜日", 4 => "木曜日", 5 => "金曜日", 6 => "土曜日", 0 => "日曜日" }.freeze
 
     def client
       @client ||= Line::Bot::Client.new { |config|
@@ -18,7 +18,7 @@ class LinebotController < ApplicationController
   
     def get_lesson_of_now_and_next
         lesson_of_now = Lesson.find_by(day_of_the_week: Time.current.wday, start_on_int: [-Float::INFINITY..Time.current.strftime('%H%M').to_i], end_on_int: [Time.current.strftime('%H%M').to_i..Float::INFINITY])
-        lesson_of_next = Lesson.find_by(day_of_the_week: Time.current.wday, number_of_lessons: lesson_of_now&.number_of_lessons + 1)
+        lesson_of_next = Lesson.find_by(day_of_the_week: Time.current.wday, number_of_lessons: lesson_of_now.number_of_lessons + 1)
         if lesson_of_next.nil?
           @message = "本日のレッスンは終了しました"
           return @message
@@ -80,7 +80,7 @@ class LinebotController < ApplicationController
         elsif event.message['text'] == "使い方"
             response = "「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
         else
-          response = "使えるワードは「今」、「今日」、「全て」のみです（機能は随時追加予定です）"
+          response = "その文字には対応していません！\n使い方は以下の通りです\n\n「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
         end
         #if文でresponseに送るメッセージを格納
   
