@@ -41,7 +41,7 @@ class LinebotController < ApplicationController
 
     def check_holiday
       if HolidayJp.holiday?(Date.today)
-        @holiday_message = "\n本日は祝日なので、休館の可能性があります！\n公式情報を参照してください！"
+        @holiday_message = "\n本日は祝日なので、休館の可能性があります。公式情報を参照してください。"
       else
         @holiday_message = ""
       end
