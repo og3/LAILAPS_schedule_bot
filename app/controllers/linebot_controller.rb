@@ -21,16 +21,18 @@ class LinebotController < ApplicationController
     end
 
     events = client.parse_events_from(body)
+    # メソッド呼び出し用のインスタンス
+    lesson = Lesson.new
 
     events.each { |event|
 
       # event.message['text']でLINEで送られてきた文書を取得
       if event.message['text'] == "今"
-        response = Lesson.get_lesson_of_now_and_next
+        response = lesson.get_lesson_of_now_and_next
       elsif event.message['text'] == "今日"
-        response = Lesson.get_todays_lesson
+        response = lesson.get_todays_lesson
       elsif event.message['text'] == "全て"
-          response = Lesson.get_all_lessons
+          response = lesson.get_all_lessons
       elsif event.message['text'] == "使い方"
           response = "「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
       else
