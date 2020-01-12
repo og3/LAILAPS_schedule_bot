@@ -14,3 +14,6 @@ https://lailaps-hokusei.jp/fee/
 https://lailaps-hokusei.jp/news2/
 ## 管理者側
 - 変更に対応できるようにクラスの値を管理するできるようにする
+
+## 利用状況確認ページ
+https://manager.line.biz/
