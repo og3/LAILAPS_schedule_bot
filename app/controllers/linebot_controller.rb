@@ -32,9 +32,9 @@ class LinebotController < ApplicationController
       elsif event.message['text'] == "今日"
         response = lesson.get_todays_lesson
       elsif event.message['text'] == "全て"
-          response = lesson.get_all_lessons
+        response = lesson.get_all_lessons
       elsif event.message['text'] == "使い方"
-          response = "「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
+        response = "「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
       else
         response = "その文字には対応していません！\n使い方は以下の通りです\n\n「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
       end
