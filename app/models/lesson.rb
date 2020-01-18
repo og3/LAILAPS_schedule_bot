@@ -15,7 +15,7 @@ class Lesson < ApplicationRecord
     else
       @message = "現在のレッスンは、#{lesson_of_now.name}です\nトレーナー：#{lesson_of_now.trainer}\n時間：#{lesson_of_now.start_on.strftime('%H：%M')}〜#{lesson_of_now.end_on.strftime('%H：%M')}\n\n次回のレッスンは、#{lesson_of_next.name}です\nトレーナー：#{lesson_of_next.trainer}\n時間：#{lesson_of_next.start_on.strftime('%H：%M')}〜#{lesson_of_next.end_on.strftime('%H：%M')}\n"
     end
-    @message + check_holiday
+    @message + Lesson.check_holiday
   end
 
   def self.get_todays_lesson
@@ -24,7 +24,7 @@ class Lesson < ApplicationRecord
     lessons_of_today.each do |lesson|
         @message << "#{lesson.start_on.strftime('%H：%M')}~  #{lesson.name}：#{lesson.trainer}\n"
     end
-    @message + check_holiday
+    @message + Lesson.check_holiday
   end
 
   def self.get_all_lessons
@@ -41,7 +41,7 @@ class Lesson < ApplicationRecord
     @message
   end
 
-  def check_holiday
+  def self.check_holiday
     if HolidayJp.holiday?(Date.today)
       @holiday_message = "\n本日は祝日なので、休館の可能性があります。公式情報を参照してください。"
     else
