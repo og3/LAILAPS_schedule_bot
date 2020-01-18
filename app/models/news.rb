@@ -38,4 +38,9 @@ class News < ApplicationRecord
   def self.quit_driver
     @@driver.quit
   end
+
+  def self.send_new_post
+    news = News.find(1)
+    @message = "最新記事は、以下の通りです。\n\n#{news.title}\n#{news.url}\n更新日#{news.updated_at.in_time_zone('Tokyo')}"
+  end
 end

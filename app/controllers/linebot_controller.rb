@@ -31,6 +31,8 @@ class LinebotController < ApplicationController
         response = Lesson.get_todays_lesson
       elsif event.message['text'] == "全て"
         response = Lesson.get_all_lessons
+      elsif event.message['text'] == "記事"
+        response = News.send_new_post
       elsif event.message['text'] == "使い方"
         response = "「今」と入力すると、現在行われているレッスンと、その次に行われるレッスンが表示されます\n\n「今日」と入力すると、今日行われる全てのレッスンが表示されます\n\n「全て」と入力すると１週間全てのレッスンが表示されます"
       else
