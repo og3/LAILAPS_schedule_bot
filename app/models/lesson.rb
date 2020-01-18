@@ -4,7 +4,7 @@ class Lesson < ApplicationRecord
 
   WEEK = { 1 => "月曜日", 2 => "火曜日", 3 => "水曜日", 4 => "木曜日", 5 => "金曜日", 6 => "土曜日", 0 => "日曜日" }.freeze
 
-  def get_lesson_of_now_and_next
+  def self.get_lesson_of_now_and_next
     lesson_of_now = Lesson.find_by(day_of_the_week: Time.current.wday, start_on_int: [-Float::INFINITY..Time.current.strftime('%H%M').to_i], end_on_int: [Time.current.strftime('%H%M').to_i..Float::INFINITY])
     lesson_of_next = Lesson.find_by(day_of_the_week: Time.current.wday, number_of_lessons: lesson_of_now.number_of_lessons + 1)
     if lesson_of_next.nil?
@@ -18,7 +18,7 @@ class Lesson < ApplicationRecord
     @message + check_holiday
   end
 
-  def get_todays_lesson
+  def self.get_todays_lesson
     lessons_of_today = Lesson.where(day_of_the_week: Time.current.wday)
     @message = "本日のレッスンは以下の通りです\n\n#{WEEK[Time.current.wday]}\n"
     lessons_of_today.each do |lesson|
@@ -27,7 +27,7 @@ class Lesson < ApplicationRecord
     @message + check_holiday
   end
 
-  def get_all_lessons
+  def self.get_all_lessons
     lessons = Lesson.all
     @message = "１週間のスケジュールは以下の通りです\n\n"
     count = 0
