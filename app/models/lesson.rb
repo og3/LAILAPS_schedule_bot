@@ -41,8 +41,6 @@ class Lesson < ApplicationRecord
     @message
   end
 
-  private
-
   def check_holiday
     if HolidayJp.holiday?(Date.today)
       @holiday_message = "\n本日は祝日なので、休館の可能性があります。公式情報を参照してください。"
