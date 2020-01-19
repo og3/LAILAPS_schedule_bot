@@ -1,10 +1,17 @@
 class News < ApplicationRecord
   require 'selenium-webdriver'
+  require 'webdrivers'
+
   @@driver
 
   # headlessモードで起動
   def self.starting_headless_chrome
-    options = Selenium::WebDriver::Chrome::Options.new
+    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+
+    options = Selenium::WebDriver::Chrome::Options.new(
+      prefs: { 'profile.default_content_setting_values.notifications': 2 },
+      binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    )
     options.add_argument('--headless')
     @@driver = Selenium::WebDriver.for :chrome, options: options
   end
