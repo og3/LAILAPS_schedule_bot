@@ -27,6 +27,10 @@ class News < ApplicationRecord
   end
 
   def self.save_new_post(title, url)
+    # idが１のレコードがなかったら作る
+    if !News.where(id: 1).exists?
+      News.create(id: 1, title: nil, url: nil)
+    end
     @news = News.find(1)
     if @news != url
       @news.update(title: title, url: url)
