@@ -17,3 +17,7 @@ https://lailaps-hokusei.jp/news2/
 
 ## 利用状況確認ページ
 https://manager.line.biz/
+
+## メンテ手順
+### chromedriverのエラーで最新記事が引っ張れない場合
+- chromeとchromedriverのバージョンを一致させる
